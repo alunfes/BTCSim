@@ -1,0 +1,4 @@
+btc-sim/
+.ipynb*
+tick.csv
+tick.db
