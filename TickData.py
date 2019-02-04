@@ -5,7 +5,7 @@ import sqlite3
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, DateTime
 Base = declarative_base()
 
 
@@ -64,7 +64,7 @@ class TickData:
 
 class Tick(Base):
     __tablename__ = 'ticks'
-    datetime = Column(String)
+    datetime = Column(DateTime)
     price = Column(Float)
     size = Column(Float)
 

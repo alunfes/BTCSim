@@ -1,6 +1,7 @@
 from MarketData import MarketData
 from numba import jit
 
+
 class Account:
     def __init__(self):
         #asset / performance
@@ -39,6 +40,12 @@ class Account:
         self.ordering_datetime = ''
         self.ordering_ind = ''
         self.ordering_status = ''
+
+    def get_order(self):
+        print('side={},price={},size={},dt={},status={}'.format(self.ordering_side, self.ordering_price, self.ordering_size
+                                                                , self.ordering_datetime, self.ordering_status))
+        return dict(side=self.ordering_side, price=self.ordering_price, size=self.ordering_size, datetime=self.ordering_datetime,
+                    ind=self.ordering_ind, status=self.ordering_status)
 
     @jit
     def entry_order(self, side, price, size, ind):
@@ -93,15 +100,16 @@ class Account:
                                          self.ordering_size if self.ordering_size <= MarketData.size[ind] else MarketData.size[ind], ind)
 
     def __exit(self, ind, ex_p, ex_s):
-
         if self.position_side == 'Long':
             self.num_trade += 1
-            p = += ex_s * (ex_p - self.position_price)
-                self.total_pl
-            self.log_holding_sec.append()
+            p = ex_s * (ex_p - self.position_price)
+            self.total_pl += p
+            self.num_win = self.num_win +1 if p >0 else self.num_win
         elif self.position_side == 'Short':
             self.num_trade += 1
-            self.total_pl += ex_s * (self.position_price - ex_p)
+            p = ex_s * (self.position_price - ex_p)
+            self.total_pl += p
+            self.num_win = self.num_win + 1 if p > 0 else self.num_win
         else:
             print('position should be Long or Short when exit!')
 
@@ -120,6 +128,7 @@ class Account:
                 self.position_price = (size * price + self.position_price *self.position_size) / (self.position_size + size)
                 self.position_size += size
             elif side == 'Short':
+                self.__exit(ind,price,size)
                 s = self.position_size - size
                 if s == 0:
                     self.position_side = 'None'
@@ -140,6 +149,7 @@ class Account:
                 self.position_price = (size * price + self.position_price *self.position_size) / (self.position_size + size)
                 self.position_size += size
             elif side == 'Long':
+                self.__exit(ind, price, size)
                 s = self.position_size - size
                 if s == 0:
                     self.position_side = 'None'
@@ -159,10 +169,7 @@ class Account:
 
     @jit
     def move_to_next(self, ind):
-        #
-        if self.position_side == 'Long':
-        elif self.position_side == 'Short':
-
+        self.__check_and_execution(ind)
         self.__check_cancel_order(ind)
         self.__check_force_lc(ind)
         self.__calc_unrealized_pl(ind)

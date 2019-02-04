@@ -2,13 +2,14 @@ import pandas as pd
 import numpy as np
 from SqliteDBAdmin import SqliteDBAdmin
 from numba import jit
+import datetime
 
 
 class MarketData:
     @classmethod
     def initialize(cls, year_s, month_s, day_s, year_e, month_e, day_e):
         cls.datetime = []
-        cls.ind = []
+        cls.id = []
         cls.price = []
         cls.size = []
         cls.ma = {}
@@ -18,8 +19,9 @@ class MarketData:
         ticks = SqliteDBAdmin.read_from_sqlite(year_s, month_s, day_s, year_e, month_e, day_e)
         print('completed read data from DB')
         for tick in ticks:
+            #cls.datetime.append(datetime.datetime.strptime(tick.datetime, '%Y-%m-%d %H:%M:%S'))
             cls.datetime.append(tick.datetime)
-            cls.ind.append(tick.id)
+            cls.id.append(tick.id)
             cls.price.append(tick.price)
             cls.size.append(tick.size)
         print('completed appended data to list')
@@ -36,9 +38,11 @@ class MarketData:
         for i in range(term):
             ma.append(0)
             sum += cls.price[i]
-        for i in range(len(cls.price) - term):
+        ma.pop(0)
+        ma.append(float(sum) / float(term))
+        for i in range(len(cls.price) - term - 1):
             sum = sum + cls.price[i + term] - cls.price[i]
-            ma.append(sum / term)
+            ma.append(float(sum) / float(term))
         print('completed ma calc')
         return ma
 
@@ -55,10 +59,10 @@ class MarketData:
         for m in cls.ma:
             kairi = []
             num_v = int(m)
-            for i in range(num_v):
+            for i in range(num_v-1):
                 kairi.append(0)
-            for i in range(len(cls.ma[m]) - num_v):
-                kairi.append(cls.price[i + num_v] / cls.ma[m][i + num_v])
+            for i in range(len(cls.ma[m]) - num_v+1):
+                kairi.append(cls.price[i + num_v-1] / cls.ma[m][i + num_v-1])
             cls.ma_kairi[m] = kairi
 
 
