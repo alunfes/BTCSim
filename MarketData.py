@@ -20,7 +20,7 @@ class MarketData:
         print('completed read data from DB')
         for tick in ticks:
             #cls.datetime.append(datetime.datetime.strptime(tick.datetime, '%Y-%m-%d %H:%M:%S'))
-            cls.datetime.append(tick.datetime)
+            cls.datetime.append(datetime.datetime.strptime(tick.datetime, '%m/%d/%Y%H:%M:%S'))
             cls.id.append(tick.id)
             cls.price.append(tick.price)
             cls.size.append(tick.size)
