@@ -9,6 +9,7 @@ class Account:
         self.num_trade = 0
         self.total_pl = 0
         self.current_pl = 0
+        self.ave_pl = 0
 
         #ordering data
         self.__initialize_order()
@@ -17,10 +18,10 @@ class Account:
         self.__initialize_position()
 
         #log
-        self.log_total_asset = []
-        self.log_total_pl = []
-        self.log_pl = []
-        self.action_log = []
+        self.log_total_asset = {}
+        self.log_total_pl = {}
+        self.log_pl = {}
+        self.action_log = {}
         self.num_win = 0
         self.win_ratio = 0
 
@@ -68,8 +69,9 @@ class Account:
         self.num_trade +=1
         self.num_win += 1 if pl >0 else 0
         self.total_pl +=pl
-        self.log_pl.append(pl)
-        self.log_total_pl.append(self.total_pl)
+        self.current_pl = pl
+        self.log_pl.append(ind, pl)
+        self.log_total_pl.append(ind, self.total_pl)
         self.__remove_ordering(ordering_ind)
 
     def get_order(self, ind):
@@ -110,21 +112,12 @@ class Account:
 
     @jit
     def __check_order_execution(self, ind):
-        for i,dt in enumerate(self.ordering_datetime):
+        for i, dt in enumerate(self.ordering_datetime):
             if (MarketData.datetime[ind] - dt).seconds >= self.latency_sec and self.ordering_status[i] == 'ordering':
                 if self.ordering_side[i] == 'buy' and self.ordering_price[i] >= MarketData.price[ind]:
-                    #exec
+                    self.__execute(ind, i)
                 elif self.ordering_side[i] == 'buy' and self.ordering_price[i] >= MarketData.price[ind]:
-                    #exec
-
-    @jit
-    def exit_position(self):
-        if self.position_side == 'buy':
-            self.entry_order('sell', price, self.position_size, ind)
-        elif self.position_side == 'sell':
-            self.entry_order('buy', price, self.position_size, ind)
-        else:
-            print('exit_order should be called when holding position!')
+                    self.__execute(ind, i)
 
 
     @jit
@@ -193,22 +186,22 @@ class Account:
                 self.__initialize_order()
 
     @jit
-    def __check_and_execution(self, ind):
-        if (MarketData.datetime[ind] - self.position_datetime).seconds >= self.latency_sec:
-            if self.ordering_side == 'buy':
-                if self.ordering_price <= MarketData.price[ind]:
-                    self.update_position('buy',self.ordering_price,
-                                         self.ordering_size if self.ordering_size <= MarketData.size[ind] else MarketData.size[ind], ind)
-            elif self.ordering_side == 'sell':
-                if self.ordering_price >= MarketData.price[ind]:
-                    self.update_position('sell',self.ordering_price,
-                                         self.ordering_size if self.ordering_size <= MarketData.size[ind] else MarketData.size[ind], ind)
-
-    @jit
     def move_to_next(self, ind):
         self.__check_order_execution(ind)
         self.__check_cancel_order(ind)
         self.__check_force_lc(ind)
+        self.total_asset = self.__calc_unrealized_pl(ind)
+        self.log_total_asset.append(ind, self.total_asset)
+
+    @jit
+    def last_day_operation(self, ind):
+        self.__check_order_execution(ind)
+        self.__check_cancel_order(ind)
+        self.__check_force_lc(ind)
+        self.total_asset = self.__calc_unrealized_pl(ind)
+        self.log_total_asset.append(ind, self.total_asset)
+        self.win_ratio = float(self.num_win) / float(self.num_trade)
+        self.ave_pl = float(self.total_asset) / float(self.num_trade)
 
     @jit
     def __check_force_lc(self, ind):
