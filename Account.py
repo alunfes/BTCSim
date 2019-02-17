@@ -39,7 +39,7 @@ class Account:
         self.ordering_price = []
         self.ordering_size = []
         self.ordering_datetime = []
-        self.ordering_ind = []
+        self.ordering_ind = [] #index in sim
         self.ordering_status = [] #bording, ordering, cancelling, executed
 
     @jit
@@ -79,6 +79,10 @@ class Account:
                                                                 , self.ordering_datetime[ind], self.ordering_status[ind]))
         return dict(side=self.ordering_side[ind], price=self.ordering_price[ind], size=self.ordering_size[ind], datetime=self.ordering_datetime[ind],
                     ind=self.ordering_ind[ind], status=self.ordering_status[ind])
+
+    def get_all_orders(self):
+        return {'side':self.ordering_side, 'price':self.ordering_price, 'size':self.ordering_size, 'datetime':self.ordering_datetime,
+                'ind':self.ordering_ind, 'status':self.ordering_status}
 
     @jit
     def entry_order(self, side, price, size, ind):

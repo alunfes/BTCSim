@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from SqliteDBAdmin import SqliteDBAdmin
 from numba import jit
-import datetime
+from datetime import datetime as dt
 
 
 class MarketData:
@@ -19,8 +19,8 @@ class MarketData:
         ticks = SqliteDBAdmin.read_from_sqlite(year_s, month_s, day_s, year_e, month_e, day_e)
         print('completed read data from DB')
         for tick in ticks:
-            #cls.datetime.append(datetime.datetime.strptime(tick.datetime, '%Y-%m-%d %H:%M:%S'))
-            cls.datetime.append(datetime.datetime.strptime(tick.datetime, '%m/%d/%Y%H:%M:%S'))
+            #cls.datetime.append(dt.strptime(tick.datetime, '%Y-%m-%d %H:%M:%S'))
+            cls.datetime.append(tick.datetime)
             cls.id.append(tick.id)
             cls.price.append(tick.price)
             cls.size.append(tick.size)
@@ -46,6 +46,35 @@ class MarketData:
         print('completed ma calc')
         return ma
 
+    '''
+    @classmethod
+    @jit
+    def __calc_ma_timebase(cls, term):  # term shuuld be ma calc seconds
+        print('calculating ma, term=' + str(term))
+        sum = 0
+        ma = []
+        
+        
+        for i in range(term):
+            ma.append(0)
+            sum += cls.price[i]
+        ma.pop(0)
+        ma.append(float(sum) / float(term))
+        for i in range(len(cls.price) - term - 1):
+            sum = sum + cls.price[i + term] - cls.price[i]
+            ma.append(float(sum) / float(term))
+        print('completed ma calc')
+        return ma
+    
+    @classmethod
+    @jit
+    def __search_term_ind(cls, term, current_ind): #search index of price data which term seconds was elapsed after current index
+        sa = (cls.datetime[current_ind + term] - cls.datetime[current_ind]).seconds
+        if sa < term:
+            while sa
+        elif sa> term:
+    '''
+
     @classmethod
     @jit
     def __calc_all_ma(cls):
@@ -68,3 +97,4 @@ class MarketData:
 
 if __name__ == '__main__':
     MarketData.initialize(2018,10,1,2018,10,2)
+    MarketData.price

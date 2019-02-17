@@ -4,6 +4,8 @@ bleach==3.1.0
 decorator==4.3.2
 defusedxml==0.5.0
 entrypoints==0.3
+gevent==1.4.0
+greenlet==0.4.15
 ipykernel==5.1.0
 ipython==7.2.0
 ipython-genutils==0.2.0
@@ -44,3 +46,4 @@ tornado==5.1.1
 traitlets==4.3.2
 wcwidth==0.1.7
 webencodings==0.5.1
+websocket==0.2.1

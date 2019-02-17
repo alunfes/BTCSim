@@ -11,26 +11,33 @@ class Startegy:
         tdd.price = MarketData.price[ind]
         tdd.size = 0.5
 
-        # none position & order & kairi
-        if ac.ordering_side == 'None' and ac.position_side == 'None':
-            if MarketData.ma_kairi[str(kairi_term)][ind] >= 1+kairi_kijun:
+        if ac.position_side == 'None': #before entry
+            if ac.ordering_side == 'None':
+                if MarketData.ma_kairi[str(kairi_term)][ind] >= 1+kairi_kijun:
+                    tdd.side = 'sell'
+                elif MarketData.ma_kairi[str(kairi_term)][ind] <= 1 - kairi_kijun:
+                    tdd.side = 'buy'
+            elif ac.ordering_side == 'buy':
+                if MarketData.ma_kairi[str(kairi_term)][ind] >= 1+kairi_kijun:
+                    tdd.side = 'cancel'
+                elif MarketData.ma_kairi[str(kairi_term)][ind] <= 1 - kairi_kijun:
+                    tdd.side = 'None'
+            elif ac.ordering_side == 'sell':
+                if MarketData.ma_kairi[str(kairi_term)][ind] >= 1+kairi_kijun:
+                    tdd.side = 'None'
+                elif MarketData.ma_kairi[str(kairi_term)][ind] <= 1 - kairi_kijun:
+                    tdd.side = 'cancel'
+        else: #after entry
+            orders = Account .get_all_orders()
+            if ac.position_side == 'buy':
+                orders['price']
+                #pt order
+                #lc order
+                #wait for execution of pt / lc
+            elif ac.position_side == 'sell':
                 tdd.side = 'sell'
-            elif MarketData.ma_kairi[str(kairi_term)][ind] <= 1 - kairi_kijun:
-                tdd.side = 'buy'
-        elif ac.ordering_side == 'buy' and ac.position_side == 'None':
-            if MarketData.ma_kairi[str(kairi_term)][ind] >= 1+kairi_kijun:
-                tdd.side = 'cancel'
-            elif MarketData.ma_kairi[str(kairi_term)][ind] <= 1 - kairi_kijun:
-                tdd.side = 'None'
-        elif ac.ordering_side == 'sell' and ac.position_side == 'None':
-            if MarketData.ma_kairi[str(kairi_term)][ind] >= 1+kairi_kijun:
-                tdd.side = 'None'
-            elif MarketData.ma_kairi[str(kairi_term)][ind] <= 1 - kairi_kijun:
-                tdd.side = 'cancel'
-        elif ac.ordering_side == 'None' and ac.position_side == 'buy':
-            tdd.side = 'sell'
-            tdd.size = ac.position_size
-            tdd.price = ac.position_price + pt
+                tdd.size = ac.position_size
+                tdd.price = ac.position_price + pt
 
 
 
