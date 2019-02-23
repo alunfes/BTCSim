@@ -1,5 +1,6 @@
 import pandas as pd
 import datetime
+import os
 import numpy as np
 import sqlite3
 from sqlalchemy import create_engine, schema, Table, and_
@@ -27,11 +28,17 @@ class SqliteDBAdmin:
         cls.engine = create_engine('sqlite:///tick.db', echo=False)
 
     @classmethod
+    def renew_db(cls):
+        os.remove('tick.db')
+        cls.initialize()
+
+    @classmethod
     def create_table(cls):
         Base.metadata.create_all(bind=cls.engine, checkfirst=True)
 
     @classmethod
     def read_from_csv(cls):
+        cls.renew_db()
         metadata = schema.MetaData(bind=cls.engine, reflect=True)
         table = Table('ticks', metadata, autoload=True)
         Session = sessionmaker(bind=cls.engine)
@@ -66,5 +73,5 @@ if __name__ == '__main__':
     SqliteDBAdmin.initialize()
     #SqliteDBAdmin.create_table()
     #SqliteDBAdmin.read_from_csv()
-    res = SqliteDBAdmin.read_from_sqlite(2018,10,1,2018,10,2)
-    res[0].datetime
+    res = SqliteDBAdmin.read_from_sqlite(2019,1,1,2019,1,10)
+    print(res)

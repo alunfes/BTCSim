@@ -4,10 +4,16 @@ from SqliteDBAdmin import SqliteDBAdmin
 from numba import jit
 from datetime import datetime as dt
 
-
+'''
+confirmed ma and kairi are accurate
+'''
 class MarketData:
     @classmethod
     def initialize(cls, year_s, month_s, day_s, year_e, month_e, day_e):
+        #cls.datetime = pd.Series()
+        #cls.id = pd.Series
+        #cls.price = pd.Series()
+        #cls.size = pd.Series()
         cls.datetime = []
         cls.id = []
         cls.price = []
@@ -40,9 +46,19 @@ class MarketData:
             sum += cls.price[i]
         ma.pop(0)
         ma.append(float(sum) / float(term))
-        for i in range(len(cls.price) - term - 1):
+        for i in range(len(cls.price) - term):
             sum = sum + cls.price[i + term] - cls.price[i]
             ma.append(float(sum) / float(term))
+        print('completed ma calc')
+        return ma
+
+    @classmethod
+    @jit
+    def __calc_ma2(cls, term):
+        print('calculating ma, term=' + str(term))
+        ma = []
+        for i in range(len(cls.price) - term):
+            ma.append(cls.price[i:i+term].sum() / float(term))
         print('completed ma calc')
         return ma
 
@@ -81,6 +97,7 @@ class MarketData:
         for i in range(10):
             term = (i+1) * 100
             cls.ma[str(term)] = cls.__calc_ma(term)
+            #cls.ma[str(term)] = cls.__calc_ma2(term)
 
     @classmethod
     @jit
@@ -96,5 +113,5 @@ class MarketData:
 
 
 if __name__ == '__main__':
-    MarketData.initialize(2018,10,1,2018,10,2)
-    MarketData.price
+    MarketData.initialize(2019,1,1,2019,1,2)
+    MarketData.ma['500']
