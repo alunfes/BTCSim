@@ -95,7 +95,7 @@ class MarketData:
     @jit
     def __calc_all_ma(cls):
         for i in range(10):
-            term = (i+1) * 100
+            term = (i+1) * 1000
             cls.ma[str(term)] = cls.__calc_ma(term)
             #cls.ma[str(term)] = cls.__calc_ma2(term)
 
