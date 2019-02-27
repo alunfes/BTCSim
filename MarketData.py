@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from SqliteDBAdmin import SqliteDBAdmin
 from numba import jit
-from datetime import datetime as dt
+from datetime import datetime, timedelta
 
 '''
 confirmed ma and kairi are accurate
@@ -10,16 +10,13 @@ confirmed ma and kairi are accurate
 class MarketData:
     @classmethod
     def initialize(cls, year_s, month_s, day_s, year_e, month_e, day_e):
-        #cls.datetime = pd.Series()
-        #cls.id = pd.Series
-        #cls.price = pd.Series()
-        #cls.size = pd.Series()
         cls.datetime = []
         cls.id = []
         cls.price = []
         cls.size = []
         cls.ma = {}
         cls.ma_kairi = {}
+        cls.minutes_data = pd.DataFrame()
 
         SqliteDBAdmin.initialize()
         ticks = SqliteDBAdmin.read_from_sqlite(year_s, month_s, day_s, year_e, month_e, day_e)
@@ -34,6 +31,43 @@ class MarketData:
         cls.__calc_all_ma()
         cls.__calc_ma_kairi()
 
+    @classmethod
+    @jit
+    def convert_tick_to_minutes(cls):
+        next_dt = None
+        openp=0
+        high = 0
+        low = 99999999
+        close = 0
+        size = 0
+        dohlcs = []
+        flg = False
+        for i,p in enumerate(cls.price):
+            if next_dt == None:
+                if cls.datetime[i].second ==0:
+                    next_dt = cls.datetime[i] +timedelta(minutes=1)
+                    print('next dt defined'+str(next_dt))
+                    flg = True
+            else:
+                if flg:
+                    if next_dt <= cls.datetime[i]:
+                        close = cls.price[i]
+                        dohlcs.append([next_dt, openp, high, low, close, size])
+                        print(dohlcs)
+                        next_dt = next_dt + timedelta(minutes=1)
+                        openp = 0
+                        high = 0
+                        low = 9999999
+                        close = 0
+                        size = 0
+                    else:
+                        if size ==0:
+                            openp = cls.price[i]
+                        high = max(high, cls.price[i])
+                        low = min(low, cls.price[i])
+                        size += cls.size[i]
+        #cls.minutes_data = pd.DataFrame(pd.Series(dohlcs))
+        #cls.minutes_data.columns = ['dt','open','high','low','close','size']
 
     @classmethod
     @jit
@@ -61,35 +95,6 @@ class MarketData:
             ma.append(cls.price[i:i+term].sum() / float(term))
         print('completed ma calc')
         return ma
-
-    '''
-    @classmethod
-    @jit
-    def __calc_ma_timebase(cls, term):  # term shuuld be ma calc seconds
-        print('calculating ma, term=' + str(term))
-        sum = 0
-        ma = []
-        
-        
-        for i in range(term):
-            ma.append(0)
-            sum += cls.price[i]
-        ma.pop(0)
-        ma.append(float(sum) / float(term))
-        for i in range(len(cls.price) - term - 1):
-            sum = sum + cls.price[i + term] - cls.price[i]
-            ma.append(float(sum) / float(term))
-        print('completed ma calc')
-        return ma
-    
-    @classmethod
-    @jit
-    def __search_term_ind(cls, term, current_ind): #search index of price data which term seconds was elapsed after current index
-        sa = (cls.datetime[current_ind + term] - cls.datetime[current_ind]).seconds
-        if sa < term:
-            while sa
-        elif sa> term:
-    '''
 
     @classmethod
     @jit
