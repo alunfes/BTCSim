@@ -53,7 +53,6 @@ class MarketData:
                     if next_dt <= cls.datetime[i]:
                         close = cls.price[i]
                         dohlcs.append([next_dt, openp, high, low, close, size])
-                        print(dohlcs)
                         next_dt = next_dt + timedelta(minutes=1)
                         openp = 0
                         high = 0
@@ -66,8 +65,8 @@ class MarketData:
                         high = max(high, cls.price[i])
                         low = min(low, cls.price[i])
                         size += cls.size[i]
-        #cls.minutes_data = pd.DataFrame(pd.Series(dohlcs))
-        #cls.minutes_data.columns = ['dt','open','high','low','close','size']
+        cls.minutes_data = pd.DataFrame(np.array(dohlcs))
+        cls.minutes_data.columns = ['dt','open','high','low','close','size']
 
     @classmethod
     @jit
