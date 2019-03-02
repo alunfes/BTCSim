@@ -28,8 +28,8 @@ class MarketData:
             cls.price.append(tick.price)
             cls.size.append(tick.size)
         print('completed appended data to list')
-        cls.__calc_all_ma()
         cls.__calc_ma_kairi()
+        cls.__calc_all_ma()
 
     @classmethod
     @jit
