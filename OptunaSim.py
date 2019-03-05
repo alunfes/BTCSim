@@ -8,7 +8,7 @@ class OptunaSim:
     @jit
     def objective(self, start, end, trial):
         kairi_term = trial.suggest_categorical('kairi_term', [10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
-        kairi_kijun = trial.suggest_int('kairi_kijun', 5, 10000)
+        kairi_kijun = trial.suggest_int('kairi_kijun', 5, 100000)
         pt = trial.suggest_int('pt', 100, 20000)
         lc = trial.suggest_int('lc', 100, 20000)
         sim = SimpleSimOhlc.SimpleSimOhlc()
@@ -21,7 +21,7 @@ class OptunaSim:
             study = optuna.create_study()
             f = partial(self.objective, start_ind, end_ind)
             # study.optimize(objective, n_trials=100)
-            study.optimize(f, n_trials=100)
+            study.optimize(f, n_trials=300)
             study.best_params['kairi_kijun'] = float(study.best_params['kairi_kijun']) / 10000.0
             study.best_params['kairi_term'] = str(study.best_params['kairi_term'])
             print('kairi_term={},kairi_kijun={},pt={},lc={}'.

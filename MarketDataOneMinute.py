@@ -20,7 +20,8 @@ class MarketDataOneMinute:
         cls.size = []
         cls.ma = {}
         cls.ma_kairi = {}
-        
+        cls.rsi = {}
+
 
         SqliteDBAdmin.initialize()
         ticks = SqliteDBAdmin.read_from_sqlite(year_s, month_s, day_s, year_e, month_e, day_e)
@@ -66,6 +67,9 @@ class MarketDataOneMinute:
         cls.__calc_all_ma()
         cls.__calc_ma_kairi()
         print('completed ma calc')
+        print('calculating rsi')
+        cls.__calc_all_rsi()
+        print('completed rsi calc')
 
     @classmethod
     @jit
@@ -100,6 +104,48 @@ class MarketDataOneMinute:
             for i in range(len(cls.ma[m]) - num_v + 1):
                 kairi.append(cls.close[i + num_v - 1] / cls.ma[m][i + num_v - 1])
             cls.ma_kairi[m] = kairi
+
+    @classmethod
+    @jit
+    def __calc_rsi(cls, term):
+        plus_sum = 0
+        minus_sum = 0
+        rsi = []
+        for i in range(term):
+            rsi.append(0)
+            dif =cls.close[i] - cls.open[i]
+            if dif >0:
+                plus_sum += dif
+            else:
+                minus_sum += -dif
+        rsi.pop(0)
+        if plus_sum >0:
+            rsi.append(plus_sum / (plus_sum + minus_sum))
+        else:
+            rsi.append(0)
+        for i in range(len(cls.close) - term):
+            new_dif = cls.close[i+term] - cls.open[i+term]
+            old_dif = cls.close[i] - cls.open[i]
+            if new_dif >0:
+                plus_sum += new_dif
+            else:
+                minus_sum += -new_dif
+            if old_dif >0:
+                plus_sum -= old_dif
+            else:
+                minus_sum -= -old_dif
+            if plus_sum >0:
+                rsi.append(plus_sum / (plus_sum + minus_sum))
+            else:
+                rsi.append(0)
+        return rsi
+
+    @classmethod
+    @jit
+    def __calc_all_rsi(cls):
+        for i in range(10):
+            term = (i + 1) * 3
+            cls.rsi[str(term)] = cls.__calc_rsi(term)
 
 
 if __name__ == '__main__':
