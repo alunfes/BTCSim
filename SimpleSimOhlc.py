@@ -51,7 +51,6 @@ class SimpleSimOhlc:
 
     @jit
     def __last_ind_operation(self, ind):
-        print('kita')
         if self.posi_side == 'buy':
             self.__execute( (MarketDataOneMinute.close[ind] - self.posi_price) * self.posi_size)
         elif self.posi_side == 'sell':
@@ -67,7 +66,7 @@ class SimpleSimOhlc:
         if self.posi_side == 'buy':
             self.pl_log.append((MarketDataOneMinute.close[ind] - self.posi_price) * self.posi_size)
         elif self.posi_side == 'sell':
-            self.pl_log((self.posi_price - MarketDataOneMinute.close[ind]) * self.posi_size)
+            self.pl_log.append((self.posi_price - MarketDataOneMinute.close[ind]) * self.posi_size)
         else:
             if ind > start_ind:
                 self.pl_log.append(self.pl_log[len(self.pl_log) - 1])
