@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+from sklearn import preprocessing
+import copy
 from MarketDataOneMinute import MarketDataOneMinute as md
 from SimpleSimOhlc import SimpleSimOhlc as sim
 
@@ -33,6 +35,38 @@ class RegressionDataGenerator:
             print(res[0])
         df = df.assign(strategy_1=pl)
         return df
+
+
+    @classmethod
+    def generate_lstm_ave_data(cls,start, end, length_of_sequence, test_size = 0.33):
+        ave = []
+        for i in range(len(md.close)):
+            ave.append((md.open[i]+md.high[i]+md.low[i]+md.close[i])/4.0)
+        change = []
+        for i in range(len(ave) - 1):
+            change.append(ave[i+1]/ave[i])
+        x = pd.Series()
+        y = pd.Series()
+        scaler = preprocessing.MinMaxScaler()
+        change = scaler.fit_transform(change)
+        yli = []
+        for i in range(len(change) - length_of_sequence -1):
+            xli = []
+            for j in range(length_of_sequence):
+                xli.append((change[i+j]))
+            x = pd.concat([x, pd.Series(xli)], axis = 1, ignore_index=True)
+            yli.append(change[i+length_of_sequence])
+        y = pd.Series(yli)
+        x = copy.deepcopy(x.T).iloc[1:x.shape[1]+1]
+
+        s = int(round(x.shape[0] * (1-test_size)))
+        x_train = np.array(x.iloc[0:s]).reshape(s, length_of_sequence, 1)
+        x_test = np.array(x.iloc[s:x.shape[0] + 1]).reshape(x.shape[0] - s, length_of_sequence, 1)
+        y_train = np.array(y.iloc[0:s]).reshape(s, 1)
+        y_test = np.array(y.iloc[s:x.shape[0]+1]).reshape(x.shape[0]-s,1)
+        return x_train, y_train, x_test, y_test,ave,change
+
+
 
     @classmethod
     def __generate_sim_paramter_combinations(self):

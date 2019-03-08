@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55b8951d-7f08-4d9c-a36d-4ee32773dca7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/RegressionModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Untitled.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Untitled.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XgboostDataGenerator.py" beforeDir="false" afterPath="$PROJECT_DIR$/RegressionDataGenerator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RegressionDataGenerator.py" beforeDir="false" afterPath="$PROJECT_DIR$/RegressionDataGenerator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RegressionModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/RegressionModel.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,7 +17,7 @@
         <entry file="file://$PROJECT_DIR$/SqliteDBAdmin.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-12">
-              <caret line="30" column="22" lean-forward="true" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
+              <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -43,7 +41,7 @@
         <entry file="file://$PROJECT_DIR$/MarketDataOneMinute.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1710">
-              <caret line="114" column="25" lean-forward="true" selection-start-line="114" selection-start-column="25" selection-end-line="114" selection-end-column="25" />
+              <caret line="114" column="25" selection-start-line="114" selection-start-column="25" selection-end-line="114" selection-end-column="25" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -54,8 +52,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RegressionDataGenerator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="25" column="45" lean-forward="true" selection-start-line="25" selection-start-column="45" selection-end-line="25" selection-end-column="45" />
+            <state relative-caret-position="488">
+              <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -66,8 +64,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RegressionModel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="333">
+              <caret line="32" column="37" lean-forward="true" selection-start-line="32" selection-start-column="37" selection-end-line="32" selection-end-column="37" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -88,7 +89,7 @@
         <entry file="file://$PROJECT_DIR$/SimpleSimOhlc.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="504">
-              <caret line="227" column="62" lean-forward="true" selection-start-line="227" selection-start-column="62" selection-end-line="227" selection-end-column="83" />
+              <caret line="227" column="62" selection-start-line="227" selection-start-column="62" selection-end-line="227" selection-end-column="83" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -109,7 +110,7 @@
         <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="414">
-              <caret line="1736" column="29" lean-forward="true" selection-start-line="1736" selection-start-column="29" selection-end-line="1736" selection-end-column="29" />
+              <caret line="1736" column="29" selection-start-line="1736" selection-start-column="29" selection-end-line="1736" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -118,7 +119,7 @@
         <entry file="file://$PROJECT_DIR$/OptunaSim.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="303">
-              <caret line="21" column="40" lean-forward="true" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+              <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -170,8 +171,8 @@
         <option value="$PROJECT_DIR$/MarketDataOneMinute.py" />
         <option value="$PROJECT_DIR$/SimpleSimOhlc.py" />
         <option value="$PROJECT_DIR$/XgboostDataGenerator.py" />
-        <option value="$PROJECT_DIR$/RegressionModel.py" />
         <option value="$PROJECT_DIR$/RegressionDataGenerator.py" />
+        <option value="$PROJECT_DIR$/RegressionModel.py" />
       </list>
     </option>
   </component>
@@ -491,7 +492,7 @@
     <entry file="file://$PROJECT_DIR$/OptunaSim.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="303">
-          <caret line="21" column="40" lean-forward="true" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
@@ -511,7 +512,7 @@
     <entry file="file://$PROJECT_DIR$/SqliteDBAdmin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-12">
-          <caret line="30" column="22" lean-forward="true" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
+          <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -528,7 +529,7 @@
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
-          <caret line="1736" column="29" lean-forward="true" selection-start-line="1736" selection-start-column="29" selection-end-line="1736" selection-end-column="29" />
+          <caret line="1736" column="29" selection-start-line="1736" selection-start-column="29" selection-end-line="1736" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -552,7 +553,7 @@
     <entry file="file://$PROJECT_DIR$/SimpleSimOhlc.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="504">
-          <caret line="227" column="62" lean-forward="true" selection-start-line="227" selection-start-column="62" selection-end-line="227" selection-end-column="83" />
+          <caret line="227" column="62" selection-start-line="227" selection-start-column="62" selection-end-line="227" selection-end-column="83" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>
@@ -562,7 +563,7 @@
     <entry file="file://$PROJECT_DIR$/MarketDataOneMinute.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1710">
-          <caret line="114" column="25" lean-forward="true" selection-start-line="114" selection-start-column="25" selection-end-line="114" selection-end-column="25" />
+          <caret line="114" column="25" selection-start-line="114" selection-start-column="25" selection-end-line="114" selection-end-column="25" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -571,8 +572,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/RegressionDataGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="25" column="45" lean-forward="true" selection-start-line="25" selection-start-column="45" selection-end-line="25" selection-end-column="45" />
+        <state relative-caret-position="488">
+          <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -581,8 +582,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/RegressionModel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="333">
+          <caret line="32" column="37" lean-forward="true" selection-start-line="32" selection-start-column="37" selection-end-line="32" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
