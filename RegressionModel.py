@@ -1,3 +1,8 @@
+'''
+input = length of price data (t)
+output = pl of a strategy after specific period (sim period) of t
+'''
+
 import pandas as pd
 import numpy as np
 import tensorflow as tf
@@ -7,6 +12,9 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 import math
 import copy
+from MarketDataOneMinute import MarketDataOneMinute as md
+from RegressionDataGenerator import  RegressionDataGenerator as rdg
+
 
 
 class RegressionModel:
@@ -37,3 +45,10 @@ class RegressionModel:
         return pred
 
 
+
+if __name__ == '__main__':
+    md.initialize(2019,1,1,2019,1,30)
+    x_train, y_train, x_test, y_test = rdg.generate_lstm_ave_data(100,len(md.dt)-1,1000,0.33)
+    rm = RegressionModel()
+    model = rm.train_model(x_train, y_train, 1, 100)
+    pre = rm.forecast(model, x_test, 1000)
